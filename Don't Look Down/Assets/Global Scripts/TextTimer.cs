@@ -3,7 +3,7 @@ using System.Collections;
 
 public class TextTimer : MonoBehaviour {
 
-	public float displaySeconds;
+	[SerializeField] private float displaySeconds;
 	private float displaySecondsLeft;
 
 	// Use this for initialization

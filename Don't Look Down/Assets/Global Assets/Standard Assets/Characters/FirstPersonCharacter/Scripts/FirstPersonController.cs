@@ -33,6 +33,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private AudioSource m_AudioSource;
         private bool m_IsGravity;
 
+		// Currently active platform
+		private Transform activePlatform;
+		// Where we are relative to the platform's center
+		private Vector3 activeLocalPlatformPoint;
+		// Our last absolute position on the platform
+		private Vector3 activeGlobalPlatformPoint;
+
         // Use this for initialization
         private void Start()
         {
@@ -44,6 +51,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_AudioSource = GetComponent<AudioSource>();
             m_MouseLook.Init(transform , m_Camera.transform);
             m_IsGravity = false;
+
+			activePlatform = null;
         }
 
 
@@ -88,7 +97,26 @@ namespace UnityStandardAssets.Characters.FirstPerson
 				m_MoveDir.y = 0;
 			}
 
+			// Get moved if we're on a platform
+			if (activePlatform != null){
+				// Take our old position relative to the platform and see where it is globally
+				Vector3 newGlobalPlatformPoint = activePlatform.TransformPoint(activeLocalPlatformPoint);
+				// Move by how much that moved from our old global position
+				Vector3 movement = (newGlobalPlatformPoint - activeGlobalPlatformPoint);
+				// Convert translation to velocity
+				m_MoveDir += movement / Time.fixedDeltaTime;
+				activePlatform = null;
+			}
+
             m_CollisionFlags = m_CharacterController.Move(m_MoveDir*Time.fixedDeltaTime);
+
+			// If our last movement caused platform collision, update positions
+			if (activePlatform != null) {
+				// Here's where we are now
+				activeGlobalPlatformPoint = transform.position;
+				// Here's where we are relative to the platform
+				activeLocalPlatformPoint = activePlatform.InverseTransformPoint(activeGlobalPlatformPoint);
+			}
 
             ProgressStepCycle(speed);
         }
@@ -171,6 +199,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
+			// If we hit a moving platform from above
+			if (hit.collider.gameObject.CompareTag("movingPlatform") && hit.moveDirection.y < -0.9 && hit.normal.y > 0.5) {
+				activePlatform = hit.collider.transform;
+			}
+
             Rigidbody body = hit.collider.attachedRigidbody;
             //dont move the rigidbody if the character is on top of it
             if (m_CollisionFlags == CollisionFlags.Below)
