@@ -19,7 +19,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private bool m_UseFovKick;
         [SerializeField] private FOVKick m_FovKick = new FOVKick();
         [SerializeField] private float m_StepInterval;
-		[SerializeField] private float m_DownSensitivity;
+        [SerializeField] private float m_DownSensitivity;
         [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
 
         private Camera m_Camera;
@@ -31,7 +31,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_StepCycle;
         private float m_NextStep;
         private AudioSource m_AudioSource;
-		private bool m_IsGravity;
+        private bool m_IsGravity;
 
         // Use this for initialization
         private void Start()
@@ -42,8 +42,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_StepCycle = 0f;
             m_NextStep = m_StepCycle/2f;
             m_AudioSource = GetComponent<AudioSource>();
-			m_MouseLook.Init(transform , m_Camera.transform);
-			m_IsGravity = false;
+            m_MouseLook.Init(transform , m_Camera.transform);
+            m_IsGravity = false;
         }
 
 
