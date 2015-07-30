@@ -19,6 +19,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private bool m_UseFovKick;
         [SerializeField] private FOVKick m_FovKick = new FOVKick();
         [SerializeField] private float m_StepInterval;
+		[SerializeField] private float m_DownSensitivity;
         [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
 
         private Camera m_Camera;
@@ -73,7 +74,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             if (!m_CharacterController.isGrounded)
             {
 				// ... and we're looking down, turn on gravity
-				if (m_Camera.transform.forward.y < -0.1) {
+				if (m_Camera.transform.forward.y < m_DownSensitivity) {
 					m_IsGravity = true;
 				}
 
