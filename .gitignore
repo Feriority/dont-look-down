@@ -19,3 +19,14 @@
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
+
+# Build folders
+*.app/
+
+# Build artifacts
+*_Data/
+*.exe
+
+# OSX sucks
+.DS_Store
+.DS_Store?
