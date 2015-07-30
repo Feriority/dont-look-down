@@ -18,7 +18,9 @@ public class TogglePlatforms : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		m_AudioSource = GetComponent<AudioSource>();
+
 		ActivatePlatforms();
+
 		float waitTime = m_ToggleTime - (m_SoundInterval * m_SoundRepeat);
 		StartCoroutine(DoIt(waitTime));
 	}
@@ -31,18 +33,18 @@ public class TogglePlatforms : MonoBehaviour {
 	IEnumerator DoIt(float toggleTime) {
 		while (true) {
 			yield return new WaitForSeconds(toggleTime);
-			//ActivatePlatforms();
 			for (int i = 0; i < m_SoundRepeat - 1; i++) {
 				m_AudioSource.PlayOneShot(m_BeepClip);
 				yield return new WaitForSeconds(m_SoundInterval);
 			}
 			m_AudioSource.PlayOneShot(m_SlamClip);
-			showBlue = !showBlue;
+
 			ActivatePlatforms();
 		}
 	}
 
 	void ActivatePlatforms() {
+		showBlue = !showBlue;
 		m_RedPlatforms.SetActive(!showBlue);
 		m_BluePlatforms.SetActive(showBlue);
 	}
