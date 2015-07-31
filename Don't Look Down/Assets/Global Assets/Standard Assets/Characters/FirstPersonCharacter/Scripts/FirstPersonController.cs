@@ -58,6 +58,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void Update()
         {
             RotateView();
+			if (Input.GetKey(KeyCode.Escape)) {
+				Application.LoadLevel(0);
+			}
         }
 
 		// FixedUpdate is called once per frame before physics
