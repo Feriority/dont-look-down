@@ -9,7 +9,8 @@ public class MovePlatformOnAxis : MonoBehaviour {
 	[SerializeField] private float pauseLength;
 	[SerializeField] private char axis;
 	
-	private bool forward;
+	public bool forward = true;
+
 	private bool isPaused;
 	private float pauseTimer;
 	private int axisOrd;
@@ -17,7 +18,6 @@ public class MovePlatformOnAxis : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		forward = true;
 		if (axis == 'x' || axis == 'X') {
 			axisOrd = 0;
 			direction = Vector3.right;
