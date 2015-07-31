@@ -35,10 +35,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 		// Currently active platform
 		private Transform activePlatform;
-		// Where we are relative to the platform's center
-		private Vector3 activeLocalPlatformPoint;
-		// Our last absolute position on the platform
-		private Vector3 activeGlobalPlatformPoint;
+		private Vector3 oldPlatformPos;
 
         // Use this for initialization
         private void Start()
@@ -99,10 +96,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 			// Get moved if we're on a platform
 			if (activePlatform != null){
-				// Take our old position relative to the platform and see where it is globally
-				Vector3 newGlobalPlatformPoint = activePlatform.TransformPoint(activeLocalPlatformPoint);
+				Vector3 platformPos = activePlatform.position;
 				// Move by how much that moved from our old global position
-				Vector3 movement = (newGlobalPlatformPoint - activeGlobalPlatformPoint);
+				// Why the *2?  I HAVE NO IDEA; for some reason moving platforms seem to be updating their position twice?
+				Vector3 movement = (platformPos - oldPlatformPos) * 2;
 				// Convert translation to velocity
 				m_MoveDir += movement / Time.fixedDeltaTime;
 				activePlatform = null;
@@ -112,10 +109,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 			// If our last movement caused platform collision, update positions
 			if (activePlatform != null) {
-				// Here's where we are now
-				activeGlobalPlatformPoint = transform.position;
-				// Here's where we are relative to the platform
-				activeLocalPlatformPoint = activePlatform.InverseTransformPoint(activeGlobalPlatformPoint);
+				oldPlatformPos = activePlatform.position;
 			}
 
             ProgressStepCycle(speed);

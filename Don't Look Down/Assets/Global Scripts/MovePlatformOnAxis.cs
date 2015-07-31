@@ -36,13 +36,13 @@ public class MovePlatformOnAxis : MonoBehaviour {
 	// FixedUpdate is called once per frame, before physics
 	void FixedUpdate () {
 		if (isPaused) {
-			pauseTimer -= Time.deltaTime;
+			pauseTimer -= Time.fixedDeltaTime;
 			if (pauseTimer <= 0) {
 				forward = !forward;
 				isPaused = false;
 			}
 		} else {
-			float deltaPos = moveSpeed * Time.deltaTime;
+			float deltaPos = moveSpeed * Time.fixedDeltaTime;
 			if (!forward) {
 				deltaPos *= -1;
 			}
